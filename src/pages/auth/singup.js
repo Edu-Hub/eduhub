@@ -1,0 +1,84 @@
+import {
+    Flex, Box, Stack, Heading, Text, useColorModeValue, Link, Center, useToast,
+} from '@chakra-ui/react';
+import {useFormik} from "formik";
+import GoogleAuthButton from "./components/GoogleAuthButton";
+import InputField from "../app/common/components/InputField";
+import PasswordInputField from "./components/PasswordInputField";
+import PrimaryButton from "../app/common/components/PrimaryButton";
+import {StatusCodes} from "http-status-codes";
+import useToggle from "../app/common/hooks/useToggle";
+import toastHelper from "../app/common/components/ToastHelper";
+import axios from "axios";
+import {signIn} from "next-auth/react";
+import userSchema from "../../shared/modelValidationSchema/userSchema";
+import {Formik, Form, Field, ErrorMessage} from 'formik';
+
+export default function Signup() {
+    const toast = useToast();
+    const [loading, toggleLoading] = useToggle(false);
+
+    const handleSubmit = async () => {
+        const {username, email, password} = formik.values;
+        userSchema.validate(formik.values)
+        toggleLoading();
+        try {
+            const response = await axios.post("/api/user", {username, email, password});
+            signIn("credentials", {
+                email: response.data.email, password, redirect: true
+            });
+        } catch (error) {
+            toggleLoading();
+            if (error.response.status === StatusCodes.CONFLICT) {
+                toastHelper("Utente già esistente", "Un account con questa email esiste già", "error")
+            }
+        }
+    };
+    const formik = useFormik({
+        initialValues: {
+            username: '', email: '', password: '',
+        }, onSubmit: handleSubmit, validationSchema: userSchema, validateOnBlur: true
+    });
+
+    return (<Flex
+        minH={'100vh'}
+        align={'center'}
+        justify={'center'}
+        bg={useColorModeValue('gray.50', 'gray.800')}>
+        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={12}>
+            <Stack align={'center'}>
+                <Heading fontSize={'4xl'} textAlign={'center'}>
+                    Crea un Account
+                </Heading>
+                <Text fontSize={'lg'} color={'gray.600'}>
+                    Per usufruire degli splendidi vantaggi di EduHub!
+                </Text>
+            </Stack>
+            <Box
+                rounded={'lg'}
+                bg={useColorModeValue('white', 'gray.700')}
+                boxShadow={'lg'}
+                p={8}>
+                <Stack spacing={4}>
+                    <InputField id={"username"} label={"Username"} value={formik.values.username}
+                                onChange={formik.handleChange} error={formik.errors.username}/>
+
+                    <InputField id={"email"} type={"email"} label={"Indirizzo email"}
+                                value={formik.values.email}
+                                onChange={formik.handleChange} error={formik.errors.email}/>
+
+                    <PasswordInputField value={formik.values.password} onChange={formik.handleChange}
+                                        error={formik.errors.password}/>
+
+                    <PrimaryButton onClick={formik.handleSubmit} label={"Crea account"} isLoading={loading}/>
+                    <Text align={'center'} pt={6}>
+                        Hai già un account? <Link color={'blue.400'} href={"./singin"}>Accedi</Link>
+                    </Text>
+                    <Center p={8}>
+                        <GoogleAuthButton/>
+                    </Center>
+                </Stack>
+            </Box>
+        </Stack>
+    </Flex>);
+}
