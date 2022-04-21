@@ -1,6 +1,6 @@
 import {Button, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement} from "@chakra-ui/react";
 import {ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
-import useToggle from "../../app/common/hooks/useToggle";
+import useToggle from "../hooks/useToggle";
 
 const PasswordInputField = ({value, onChange, error}) => {
     const [showPassword, toggleShowPassword] = useToggle(false);

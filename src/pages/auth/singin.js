@@ -3,20 +3,19 @@ import {
 } from '@chakra-ui/react';
 import {useFormik} from "formik";
 import {signIn} from "next-auth/react";
-import GoogleAuthButton from "./components/GoogleAuthButton";
-import InputField from "../app/common/components/InputField";
-import PasswordInputField from "./components/PasswordInputField";
-import PrimaryButton from "../app/common/components/PrimaryButton";
-import useToggle from "../app/common/hooks/useToggle";
-import {useEffect} from "react";
-import toastHelper from "../app/common/components/ToastHelper";
-import useEffectOnce from "../app/common/hooks/useEffectOnce";
+import GoogleAuthButton from "../../components/GoogleAuthButton";
+import InputField from "../../components/InputField";
+import PasswordInputField from "../../components/PasswordInputField";
+import PrimaryButton from "../../components/PrimaryButton";
+import useToggle from "../../hooks/useToggle";
+import toast from "../../components/ToastHelper";
+import useEffectOnce from "../../hooks/useEffectOnce";
 
 export default function SignupCard({loginError}) {
     const [submitLoading, toggleSubmitLoading] = useToggle(false);
 
     useEffectOnce(() => {
-        if (loginError) toastHelper("Email o password errati", "", "error")
+        if (loginError) toast("Email o password errati", "", "error")
     });
 
     const handleSubmit = async () => {
@@ -25,7 +24,8 @@ export default function SignupCard({loginError}) {
         toggleSubmitLoading();
         await signIn('credentials', {
             redirect: true, email: email, password: password
-        }).catch(err => {
+        }).catch(error => {
+            console.log(error);
             toggleSubmitLoading()
         });
     };
@@ -74,7 +74,6 @@ export default function SignupCard({loginError}) {
     </Flex>);
 }
 SignupCard.getInitialProps = async (ctx) => {
-    console.log(ctx.query.error);
     if (ctx.query.error === "CredentialsSignin") return {loginError: true};
     return {};
 }

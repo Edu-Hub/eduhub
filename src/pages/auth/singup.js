@@ -1,21 +1,19 @@
 import {
-    Flex, Box, Stack, Heading, Text, useColorModeValue, Link, Center, useToast,
+    Flex, Box, Stack, Heading, Text, useColorModeValue, Link, Center,
 } from '@chakra-ui/react';
 import {useFormik} from "formik";
-import GoogleAuthButton from "./components/GoogleAuthButton";
-import InputField from "../app/common/components/InputField";
-import PasswordInputField from "./components/PasswordInputField";
-import PrimaryButton from "../app/common/components/PrimaryButton";
+import GoogleAuthButton from "../../components/GoogleAuthButton";
+import InputField from "../../components/InputField";
+import PasswordInputField from "../../components/PasswordInputField";
+import PrimaryButton from "../../components/PrimaryButton";
 import {StatusCodes} from "http-status-codes";
-import useToggle from "../app/common/hooks/useToggle";
-import toastHelper from "../app/common/components/ToastHelper";
+import useToggle from "../../hooks/useToggle";
+import toast from "../../components/ToastHelper";
 import axios from "axios";
 import {signIn} from "next-auth/react";
 import userSchema from "../../shared/modelValidationSchema/userSchema";
-import {Formik, Form, Field, ErrorMessage} from 'formik';
 
 export default function Signup() {
-    const toast = useToast();
     const [loading, toggleLoading] = useToggle(false);
 
     const handleSubmit = async () => {
@@ -30,7 +28,7 @@ export default function Signup() {
         } catch (error) {
             toggleLoading();
             if (error.response.status === StatusCodes.CONFLICT) {
-                toastHelper("Utente già esistente", "Un account con questa email esiste già", "error")
+                toast("Utente già esistente", "Un account con questa email esiste già", "error")
             }
         }
     };
