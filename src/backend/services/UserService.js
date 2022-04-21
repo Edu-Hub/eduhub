@@ -14,16 +14,15 @@ module.exports = {
         });
         await user.save().catch(err => console.log(err));
         return user;
-    }, createUserOAuth: async (fullname, email, avatarUrl) => {
+    }, createUserOAuth: async (username, email, avatarUrl) => {
         const checkExisting = await User.findOne({email});
-        console.log(checkExisting);
+        console.log("profile picture", avatarUrl);
         if (checkExisting && !checkExisting.isOAuth) throw Error("User already exists");
         if (!checkExisting) {
-            const user = new User({fullname, email, password: null, avatarUrl, isOAuth: true});
+            const user = new User({username, email, password: null, avatarUrl: avatarUrl, isOAuth: true});
             await user.save().catch(err => console.log(err));
             return user;
         }
         return checkExisting;
     }
-
 }
