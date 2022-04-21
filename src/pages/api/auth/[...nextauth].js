@@ -16,7 +16,7 @@ export default async function auth(req, res) {
             async authorize(credentials) {
                 await dbConnect();
                 const checkExisting = await User.findOne({email: credentials.email});
-                if (!checkExisting) {
+                if (!checkExisting || checkExisting.isOAuth) {
                     return;
                 }
                 const isValid = await verifyPassword(credentials.password, checkExisting.password,);
