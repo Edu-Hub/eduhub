@@ -1,14 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
-    async redirects() {
-        return [
-            {
-                source: '/',
-                destination: '/app',
-                permanent: true,
-            },
-        ]
+    reactStrictMode: false, async redirects() {
+        return [{
+            source: '/', destination: '/app', permanent: true,
+        },]
+    }, webpack: (config) => {
+        config.experiments = config.experiments || {};
+        config.experiments.topLevelAwait = true;
+        return config;
     },
 }
 

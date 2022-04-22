@@ -1,19 +1,17 @@
-import withDb from "../utils/withDb";
-import {CONFLICT, CREATED, StatusCodes} from "http-status-codes";
+import {StatusCodes} from "http-status-codes";
+import nc from "next-connect";
 
 const userService = require("../../../backend/services/UserService");
 
-async function handler(req, res) {
-    if (req.method === 'POST') {
+const handler = nc()
+    .post(async (req, res) => {
         try {
             const user = await userService.createUser(req.body);
             res.status(StatusCodes.CREATED).send(user);
         } catch (err) {
+            console.log(err)
             res.status(StatusCodes.CONFLICT).send("User already exists");
         }
-    } else {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message: 'Route not valid'});
-    }
-}
+    });
 
-export default withDb(handler);
+export default handler;

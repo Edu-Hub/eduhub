@@ -2,13 +2,13 @@ import {
     Flex, Box, Stack, Heading, Text, useColorModeValue, Link, Center,
 } from '@chakra-ui/react';
 import {useFormik} from "formik";
-import GoogleAuthButton from "../../components/GoogleAuthButton";
-import InputField from "../../components/InputField";
-import PasswordInputField from "../../components/PasswordInputField";
-import PrimaryButton from "../../components/PrimaryButton";
+import GoogleAuthButton from "../../ui/components/GoogleAuthButton";
+import InputField from "../../ui/components/InputField";
+import PasswordInputField from "../../ui/components/PasswordInputField";
+import PrimaryButton from "../../ui/components/PrimaryButton";
 import {StatusCodes} from "http-status-codes";
-import useToggle from "../../hooks/useToggle";
-import toast from "../../components/ToastHelper";
+import useToggle from "../../ui/hooks/useToggle";
+import toast from "../../ui/components/ToastHelper";
 import axios from "axios";
 import {signIn} from "next-auth/react";
 import userSchema from "../../shared/modelValidationSchema/userSchema";

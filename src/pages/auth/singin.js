@@ -3,13 +3,13 @@ import {
 } from '@chakra-ui/react';
 import {useFormik} from "formik";
 import {signIn} from "next-auth/react";
-import GoogleAuthButton from "../../components/GoogleAuthButton";
-import InputField from "../../components/InputField";
-import PasswordInputField from "../../components/PasswordInputField";
-import PrimaryButton from "../../components/PrimaryButton";
-import useToggle from "../../hooks/useToggle";
-import toast from "../../components/ToastHelper";
-import useEffectOnce from "../../hooks/useEffectOnce";
+import GoogleAuthButton from "../../ui/components/GoogleAuthButton";
+import InputField from "../../ui/components/InputField";
+import PasswordInputField from "../../ui/components/PasswordInputField";
+import PrimaryButton from "../../ui/components/PrimaryButton";
+import useToggle from "../../ui/hooks/useToggle";
+import toast from "../../ui/components/ToastHelper";
+import useEffectOnce from "../../ui/hooks/useEffectOnce";
 
 export default function SignupCard({loginError}) {
     const [submitLoading, toggleSubmitLoading] = useToggle(false);
