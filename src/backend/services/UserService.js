@@ -1,27 +1,25 @@
-import User from "../model/User.model";
-
-const {hash} = require("bcryptjs");
+import User from "../model/User";
+import {hashPassword} from "./passwordEncrypter";
 
 module.exports = {
     createUser: async (createUserPayload) => {
-        const checkExisting = await User.findOne({email: createUserPayload.email});
+        await User.sync();
+        const checkExisting = await User.findOne({where: {email: createUserPayload.email}});
         if (checkExisting) throw Error("User already exists");
-        const user = new User({
-            username: createUserPayload.username,
+        return await User.create({
+            name: createUserPayload.username,
             email: createUserPayload.email,
-            password: await hash(createUserPayload.password, 12),
+            password: hashPassword(createUserPayload.password),
             isOAuth: false
-        });
-        await user.save().catch(err => console.log(err));
-        return user;
-    }, createUserOAuth: async (username, email, avatarUrl) => {
-        const checkExisting = await User.findOne({email});
-        console.log("profile picture", avatarUrl);
+        }).catch(err => console.log(err));
+    },
+    createUserOAuth: async (name, email, picture) => {
+        const checkExisting = await User.findOne({where: {email: email}});
         if (checkExisting && !checkExisting.isOAuth) throw Error("User already exists");
         if (!checkExisting) {
-            const user = new User({username, email, password: null, avatarUrl: avatarUrl, isOAuth: true});
-            await user.save().catch(err => console.log(err));
-            return user;
+            return await User.create({
+                name: name, email: email, picture: picture, isOAuth: true
+            }).catch(err => console.log(err));
         }
         return checkExisting;
     }

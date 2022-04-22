@@ -1,10 +1,9 @@
-import {hash, compare} from 'bcryptjs';
-import has from "lodash/has";
+const bcrypt = require("bcryptjs");
 
-export async function hashPassword(password) {
-    return await hash(password, 12);
+export function hashPassword(value) {
+    return bcrypt.hashSync(value, 10)
 }
 
-export async function verifyPassword(password, hashedPassword) {
-    return await compare(password, hashedPassword);
+export function verifyPassword(value, hash) {
+    return bcrypt.compareSync(value, hash)
 }
