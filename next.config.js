@@ -4,10 +4,8 @@ const nextConfig = {
         return [{
             source: '/', destination: '/app', permanent: true,
         },]
-    }, webpack: (config) => {
-        config.experiments = config.experiments || {};
-        config.experiments.topLevelAwait = true;
-        return config;
+    }, experimental: {
+        outputStandalone: true,
     },
 }
 

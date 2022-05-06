@@ -1,9 +1,9 @@
-import User from "../model/User";
+const {User} = require("../model");
 import {hashPassword} from "./passwordEncrypter";
+import {getToken} from "next-auth/jwt";
 
 module.exports = {
     createUser: async (createUserPayload) => {
-        await User.sync();
         const checkExisting = await User.findOne({where: {email: createUserPayload.email}});
         if (checkExisting) throw Error("User already exists");
         return await User.create({
@@ -12,8 +12,7 @@ module.exports = {
             password: hashPassword(createUserPayload.password),
             isOAuth: false
         }).catch(err => console.log(err));
-    },
-    createUserOAuth: async (name, email, picture) => {
+    }, createUserOAuth: async (name, email, picture) => {
         const checkExisting = await User.findOne({where: {email: email}});
         if (checkExisting && !checkExisting.isOAuth) throw Error("User already exists");
         if (!checkExisting) {
@@ -22,5 +21,8 @@ module.exports = {
             }).catch(err => console.log(err));
         }
         return checkExisting;
+    }, getLoggedInUser: async (req) => {
+        const email = (await getToken(req)).email;
+        return await User.findOne({where: {email: email}});
     }
 }

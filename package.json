@@ -14,7 +14,7 @@
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "axios": "^0.26.1",
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "formik": "^2.2.9",
     "framer-motion": "^6.2.8",
     "http-status-codes": "^2.2.0",
@@ -28,6 +28,7 @@
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
     "sequelize": "^6.19.0",
+    "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {

@@ -14,4 +14,4 @@ const User = connection.define('User', {
         type: DataTypes.BOOLEAN, allowNull: false
     }
 }, {});
-export default User;
+module.exports = User;
