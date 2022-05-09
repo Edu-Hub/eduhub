@@ -6,7 +6,7 @@ const dbSync = require("../middleware/dbSync");
 
 const handler = nc().use(dbSync)
     .get(async (req, res) => {
-        const groups = await (await userService.getLoggedInUser({req})).getGroups();
+        const groups = await (await userService.getLoggedInUser({req}))
         res.status(StatusCodes.OK).send(groups);
     })
     .post(async (req, res) => {

@@ -1,3 +1,5 @@
+import {Group} from "../model";
+
 const {User} = require("../model");
 import {hashPassword} from "./passwordEncrypter";
 import {getToken} from "next-auth/jwt";
@@ -23,6 +25,6 @@ module.exports = {
         return checkExisting;
     }, getLoggedInUser: async (req) => {
         const email = (await getToken(req)).email;
-        return await User.findOne({where: {email: email}});
+        return await User.findOne({where: {email: email}, include: Group});
     }
 }
