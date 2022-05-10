@@ -5,6 +5,17 @@ import subjectService from "../../../../../backend/services/SubjectService";
 import {StatusCodes} from "http-status-codes";
 
 const handler = nc().use(dbSync)
+    .get(async (req, res) => {
+        try {
+            const loggedInUser = await userService.getLoggedInUser({req});
+            console.log("SUBJECT ID", req.query.subjectId)
+            const group = await subjectService.getSubject(req.query.subjectId, loggedInUser);
+            res.status(StatusCodes.CREATED).send(group);
+        } catch (err) {
+            console.error(err);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot get subject");
+        }
+    })
     .delete(async (req, res) => {
         try {
             const loggedInUser = await userService.getLoggedInUser({req});

@@ -1,9 +1,8 @@
 const connection = require("../db/connection");
-const {Group, User} = require("../model");
+const {Group, User, Subject} = require("../model");
 const {v4: uuidv4} = require('uuid');
 
 module.exports = {
-
     createGroup: async (groupName, user) => {
         await connection.sync();
         const group = await user.createAdministratedGroup({name: groupName, code: uuidv4()});
@@ -38,11 +37,11 @@ module.exports = {
         }
         group.removeUser(loggedInUser);
         return await group.save();
-    }, getGroupMembers: async (groupId) => {
+    }, getGroup: async (groupId) => {
         await connection.sync();
-        const group = await Group.findByPk(groupId);
+        const group = await Group.findByPk(groupId, {include: [Subject, User]});
         if (!group) throw Error("Group not found");
-        return group.getUsers();
+        return group;
     }
 
 }

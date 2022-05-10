@@ -8,7 +8,7 @@ const userService = require("../../../../backend/services/userService");
 const handler = nc().use(dbSync)
     .get(async (req, res) => {
         try {
-            const users = await groupService.getGroupMembers(req.query.id);
+            const users = await groupService.getGroup(req.query.id);
             return res.status(StatusCodes.OK).send(users);
         } catch (err) {
             console.error(err)

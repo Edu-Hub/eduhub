@@ -13,8 +13,8 @@ Group.belongsToMany(User, {through: "UserGroups"});
 Group.hasMany(Subject);
 Subject.belongsTo(Group);
 
-Subject.hasOne(Directory, {foreignKey: "RootDirectoryId"});
-Directory.belongsTo(Subject);
+Subject.belongsTo(Directory, {as: "RootDirectory"});
+Directory.hasOne(Subject);
 
 Directory.hasMany(Directory, {as: "Child"});
 Directory.hasOne(Directory, {as: "Parent"})

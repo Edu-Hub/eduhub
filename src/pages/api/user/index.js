@@ -5,10 +5,6 @@ const userService = require("../../../backend/services/UserService");
 const dbSync = require("../middleware/dbSync");
 
 const handler = nc().use(dbSync)
-    .get(async (req, res) => {
-        const groups = await (await userService.getLoggedInUser({req}))
-        res.status(StatusCodes.OK).send(groups);
-    })
     .post(async (req, res) => {
         try {
             const user = await userService.createUser(req.body);
