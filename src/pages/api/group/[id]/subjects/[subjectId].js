@@ -8,7 +8,6 @@ const handler = nc().use(dbSync)
     .get(async (req, res) => {
         try {
             const loggedInUser = await userService.getLoggedInUser({req});
-            console.log("SUBJECT ID", req.query.subjectId)
             const group = await subjectService.getSubject(req.query.subjectId, loggedInUser);
             res.status(StatusCodes.CREATED).send(group);
         } catch (err) {

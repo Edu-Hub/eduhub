@@ -4,7 +4,6 @@ module.exports = {
     getSubject: async (subjectId, loggedInUser) => {
         const subject = await Subject.findByPk(subjectId);
         const group = await subject.getGroup();
-        console.log(subject)
         if (!await group.hasUser(loggedInUser)) throw Error("You are not in this group!");
         return subject;
     }, createSubject: async (groupId, subjectName, loggedInUser) => {

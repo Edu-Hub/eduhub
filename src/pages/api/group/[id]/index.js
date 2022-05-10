@@ -18,7 +18,7 @@ const handler = nc().use(dbSync)
     .put(async (req, res) => {
         const loggedInUser = await userService.getLoggedInUser({req});
         try {
-            const updatedGroup = await groupService.updateGroup(req.body.groupId, req.body.name, loggedInUser);
+            const updatedGroup = await groupService.updateGroup(req.query.id, req.body.name, loggedInUser);
             return res.status(StatusCodes.OK).send(updatedGroup);
         } catch (err) {
             console.error(err)
@@ -28,7 +28,7 @@ const handler = nc().use(dbSync)
     .delete(async (req, res) => {
         const loggedInUser = await userService.getLoggedInUser({req});
         try {
-            const updatedGroup = await groupService.deleteGroup(req.body.groupId, loggedInUser);
+            const updatedGroup = await groupService.deleteGroup(req.query.id, loggedInUser);
             return res.status(StatusCodes.OK).send(updatedGroup);
         } catch (err) {
             console.error(err)

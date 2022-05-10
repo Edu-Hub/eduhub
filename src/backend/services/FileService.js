@@ -9,14 +9,13 @@ module.exports = {
         const parentDirectory = await Directory.findByPk(parentDirectoryId);
         parentDirectory.createFile({name: fileName, url: fileUrl});
         await parentDirectory.save();
+
         return parentDirectory;
     }, deleteFile: async (groupId, parentDirectoryId, fileId, loggedInUser) => {
         const group = await Group.findByPk(groupId);
         if (!await group.hasUser(loggedInUser)) throw Error("You are not in this group!");
         const file = await File.findByPk(fileId);
-        const directory = await Directory.findByPk(parentDirectoryId);
-        await directory.removeFile(File);
-        await file.destroy();
+        await file.destroy()
         return file;
     }
 }

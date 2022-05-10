@@ -8,11 +8,9 @@ const handler = nc().use(dbSync)
     .delete(async (req, res) => {
         try {
             const loggedInUser = await userService.getLoggedInUser({req});
-            console.log(loggedInUser)
             const group = await groupService.removeUserFromGroup(req.query.id, loggedInUser, req.query.userId);
             res.status(StatusCodes.CREATED).send(group);
         } catch (err) {
-            console.error(err);
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot remove user from group");
         }
     });

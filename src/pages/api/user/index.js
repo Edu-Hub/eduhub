@@ -10,7 +10,6 @@ const handler = nc().use(dbSync)
             const user = await userService.createUser(req.body);
             res.status(StatusCodes.CREATED).send(user);
         } catch (err) {
-            console.log(err)
             res.status(StatusCodes.CONFLICT).send("User already exists");
         }
     });

@@ -7,14 +7,20 @@ const userService = require("../../../backend/services/userService");
 
 
 const handler = nc().use(dbSync)
+    .get(async (req, res) => {
+        try {
+            const groups = await groupService.getAllGroups();
+            res.status(StatusCodes.CREATED).send(groups);
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot create group");
+        }
+    })
     .post(async (req, res) => {
         try {
             const loggedInUser = await userService.getLoggedInUser({req});
-            console.log(loggedInUser)
             const group = await groupService.createGroup(req.body.name, loggedInUser);
             res.status(StatusCodes.CREATED).send(group);
         } catch (err) {
-            console.error(err);
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot create group");
         }
     });
