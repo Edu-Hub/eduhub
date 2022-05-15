@@ -1,6 +1,5 @@
-const connection = require("../db/connection");
-const {Group, User, Subject, Directory, File} = require("../model");
-const {v4: uuidv4} = require('uuid');
+const {Group,  Directory, File} = require("../model");
+const publishFileUploadEvent = require("../messagebroker/messageBroker");
 
 module.exports = {
     createFile: async (groupId, parentDirectoryId, fileName, fileUrl, loggedInUser) => {
@@ -9,7 +8,22 @@ module.exports = {
         const parentDirectory = await Directory.findByPk(parentDirectoryId);
         parentDirectory.createFile({name: fileName, url: fileUrl});
         await parentDirectory.save();
+        const messagePayload = {
+            userEmails: [],
+            group:group.name,
+            file: {
+                name: fileName,
+                url: fileUrl
+            }
+        };
+        const users = await group.getUsers();
+        console.log(users);
+        users.forEach(user=>{
+            console.log(user.email)
+            messagePayload.userEmails.push(user.email);
+        });
 
+        await publishFileUploadEvent(messagePayload);
         return parentDirectory;
     }, deleteFile: async (groupId, parentDirectoryId, fileId, loggedInUser) => {
         const group = await Group.findByPk(groupId);
