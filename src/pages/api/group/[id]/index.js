@@ -1,11 +1,20 @@
 import {StatusCodes} from "http-status-codes";
 import nc from "next-connect";
-import dbSync from "../middleware/dbSync";
+import dbSync from "../../middleware/dbSync";
 
-const groupService = require("../../../backend/services/GroupService");
-const userService = require("../../../backend/services/userService");
+const groupService = require("../../../../backend/services/GroupService");
+const userService = require("../../../../backend/services/userService");
 
 const handler = nc().use(dbSync)
+    .get(async (req, res) => {
+        try {
+            const users = await groupService.getGroup(req.query.id);
+            return res.status(StatusCodes.OK).send(users);
+        } catch (err) {
+            console.error(err)
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot get group");
+        }
+    })
     .put(async (req, res) => {
         const loggedInUser = await userService.getLoggedInUser({req});
         try {
@@ -15,7 +24,8 @@ const handler = nc().use(dbSync)
             console.error(err)
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot update group");
         }
-    }).delete(async (req, res) => {
+    })
+    .delete(async (req, res) => {
         const loggedInUser = await userService.getLoggedInUser({req});
         try {
             const updatedGroup = await groupService.deleteGroup(req.query.id, loggedInUser);

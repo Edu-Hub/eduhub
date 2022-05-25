@@ -25,7 +25,6 @@ export default function SignupCard({loginError}) {
         await signIn('credentials', {
             redirect: true, email: email, password: password
         }).catch(error => {
-            console.log(error);
             toggleSubmitLoading()
         });
     };
