@@ -31,11 +31,14 @@ module.exports = {
         await connection.sync();
         const group = await Group.findByPk(groupId, {attributes: {exclude: "code"}});
         if (!group) throw error;
-        if (userId && await group.getAdmin().id !== loggedInUser.id) throw Error("Cannot kick user");
+        const groupAdmin = await group.getAdmin();
+        if (userId && groupAdmin.id !== loggedInUser.id) throw Error("Cannot kick user");
+        if(userId === groupAdmin.id) throw Error("Cannot kick yourself, you are the admin.");
+
         if (userId) {
-            group.removeUser(await User.findOne({where: {userId: userId}, include: Group}));
+            const user = await User.findOne({where: {id: userId}, include: Group});
+            group.removeUser(user);
         }
-        group.removeUser(loggedInUser);
         return await group.save();
     }, getGroup: async (groupId) => {
         await connection.sync();
