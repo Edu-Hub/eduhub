@@ -24,7 +24,7 @@ module.exports = {
         });
 
         await publishFileUploadEvent(messagePayload);
-        return parentDirectory;
+        return await Directory.findByPk(parentDirectoryId, {include: [{model: Directory, as: "Child"}, File]});;
     }, deleteFile: async (groupId, parentDirectoryId, fileId, loggedInUser) => {
         const group = await Group.findByPk(groupId);
         if (!await group.hasUser(loggedInUser)) throw Error("You are not in this group!");

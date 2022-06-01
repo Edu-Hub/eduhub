@@ -12,10 +12,10 @@ module.exports = {
     }, createDirectory: async (groupId, parentDirectoryId, directoryName, loggedInUser) => {
         const group = await Group.findByPk(groupId);
         if (!await group.hasUser(loggedInUser)) throw Error("You are not in this group!");
-        const parentDirectory = await Directory.findByPk(parentDirectoryId);
+        const parentDirectory = await Directory.findByPk(parentDirectoryId, {include: [{model: Directory, as: "Child"}, File]});
         parentDirectory.createChild({name: directoryName});
         await parentDirectory.save();
-        return parentDirectory;
+        return await Directory.findByPk(parentDirectoryId, {include: [{model: Directory, as: "Child"}, File]});;
     }, deleteDirectory: async (groupId, directoryId, loggedInUser) => {
 
     }
