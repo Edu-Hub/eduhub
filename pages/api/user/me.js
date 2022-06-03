@@ -1,7 +1,7 @@
 import {StatusCodes} from "http-status-codes";
 import nc from "next-connect";
 
-const userService = require("../../../backend/services/UserService");
+const userService = require("../../../src/backend/services/UserService");
 const dbSync = require("../middleware/dbSync");
 
 const handler = nc().use(dbSync)

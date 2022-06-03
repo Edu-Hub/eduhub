@@ -2,16 +2,16 @@ import {
     Flex, Box, Stack, Heading, Text, useColorModeValue, Link, Center,
 } from '@chakra-ui/react';
 import {useFormik} from "formik";
-import GoogleAuthButton from "../../ui/components/GoogleAuthButton";
-import InputField from "../../ui/components/InputField";
-import PasswordInputField from "../../ui/components/PasswordInputField";
-import PrimaryButton from "../../ui/components/PrimaryButton";
+import GoogleAuthButton from "../../src/ui/components/GoogleAuthButton";
+import InputField from "../../src/ui/components/InputField";
+import PasswordInputField from "../../src/ui/components/PasswordInputField";
+import PrimaryButton from "../../src/ui/components/PrimaryButton";
 import {StatusCodes} from "http-status-codes";
-import useToggle from "../../ui/hooks/useToggle";
-import toast from "../../ui/components/ToastHelper";
+import useToggle from "../../src/ui/hooks/useToggle";
+import toast from "../../src/ui/components/ToastHelper";
 import axios from "axios";
 import {signIn} from "next-auth/react";
-import userSchema from "../../shared/modelValidationSchema/userSchema";
+import userSchema from "../../src/shared/modelValidationSchema/userSchema";
 
 export default function Signup() {
     const [loading, toggleLoading] = useToggle(false);

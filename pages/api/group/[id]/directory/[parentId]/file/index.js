@@ -1,7 +1,7 @@
 import nc from "next-connect";
 import dbSync from "../../../../../middleware/dbSync";
-import userService from "../../../../../../../backend/services/UserService";
-import fileService from "../../../../../../../backend/services/FileService";
+import userService from "../../../../../../../src/backend/services/UserService";
+import fileService from "../../../../../../../src/backend/services/FileService";
 import {StatusCodes} from "http-status-codes";
 
 const handler = nc().use(dbSync)

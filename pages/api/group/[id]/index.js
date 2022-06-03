@@ -2,8 +2,8 @@ import {StatusCodes} from "http-status-codes";
 import nc from "next-connect";
 import dbSync from "../../middleware/dbSync";
 
-const groupService = require("../../../../backend/services/GroupService");
-const userService = require("../../../../backend/services/userService");
+import groupService from "../../../../src/backend/services/GroupService";
+import userService from "../../../../src/backend/services/UserService";
 
 const handler = nc().use(dbSync)
     .get(async (req, res) => {

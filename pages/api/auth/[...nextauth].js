@@ -1,9 +1,9 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from "next-auth/providers/google";
-import {verifyPassword} from "../../../backend/services/passwordEncrypter";
-import {createUserOAuth} from "../../../backend/services/UserService";
-import User from "../../../backend/model/User";
+import {verifyPassword} from "../../../src/backend/services/passwordEncrypter";
+import {createUserOAuth} from "../../../src/backend/services/UserService";
+import User from "../../../src/backend/model/User";
 
 export default async function auth(req, res) {
     return await NextAuth(req, res, {
