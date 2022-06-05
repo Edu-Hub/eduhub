@@ -17,6 +17,11 @@ module.exports = {
         await parentDirectory.save();
         return await Directory.findByPk(parentDirectoryId, {include: [{model: Directory, as: "Child"}, File]});;
     }, deleteDirectory: async (groupId, directoryId, loggedInUser) => {
+        const group = await Group.findByPk(groupId);
+        if (!await group.hasUser(loggedInUser)) throw Error("You are not in this group!");
 
+        const directory = await Directory.findByPk(directoryId);
+        directory.destroy();
+        return directory;
     }
 }
