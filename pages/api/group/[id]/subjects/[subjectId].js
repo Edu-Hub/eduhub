@@ -22,7 +22,7 @@ const handler = nc().use(dbSync)
             res.status(StatusCodes.CREATED).send(group);
         } catch (err) {
             console.error(err);
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot remove user from group");
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot delete subject");
         }
     });
 

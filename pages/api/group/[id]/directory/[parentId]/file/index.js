@@ -12,7 +12,7 @@ const handler = nc().use(dbSync)
             res.status(StatusCodes.CREATED).send(file);
         } catch (err) {
             console.error(err);
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot create directory");
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot create file");
         }
     });
 

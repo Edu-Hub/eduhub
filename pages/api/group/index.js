@@ -12,7 +12,7 @@ const handler = nc().use(dbSync)
             const groups = await groupService.getAllGroups();
             res.status(StatusCodes.CREATED).send(groups);
         } catch (err) {
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot create group");
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Cannot get group");
         }
     })
     .post(async (req, res) => {
